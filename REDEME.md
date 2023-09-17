@@ -53,7 +53,7 @@
 
 #### 1.5 Go简介
 
-`Go`是一门静态类型语言
+`Go`是一门静态类型语言，不像`Java`等语言面向对象
 
 ---
 
@@ -77,6 +77,8 @@
 | `string`  |      |
 | `int`     |      |
 | `float64` |      |
+| `array`   |      |
+| `map`     | 集合   |
 
 #### 2.3 函数实现
 
@@ -112,4 +114,51 @@
 
 `for i,card := range cards {}`
 
+#### 2.6 自定义类型
 
+声明自定义类型，形式如下：
+
+`type name []string`
+
+类型标识符、自定义名称、类型，
+
+- 可以放在文件中引入，也可以放在主文件中声明
+
+- 可以为自定义类型声明方法，并在类型被使用时提供
+
+```go
+// ----引入 
+// card.go
+package main
+
+type deck []string
+// main.go
+package main
+
+func main(){
+    card := deck{'a','b'}
+} 
+
+// ----声明
+package main
+
+type deck []string
+
+func main(){
+    card := deck{'a','b'}
+}
+```
+
+自定义类型的函数声明
+
+声明步骤：
+
+函数标识、类型声明、函数名称、接收参数、函数体
+
+在类型声明这里，作用把引用该方法的对象接收过来，名称为`d`，就可以在函数体内进行使用，**名称规则由官方定义，为自定义类型的开头字母**
+
+```go
+func (d deck) print(){
+    fmt.println(d)
+}
+```
