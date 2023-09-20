@@ -162,3 +162,11 @@ func (d deck) print(){
     fmt.println(d)
 }
 ```
+
+#### 2.7 引入依赖包
+
+实现将`[]deck -> []string -> string -> []byte`
+
+`byte`是每个字符的ASCII码值，旨在方便计算机识别内容
+
+`strings.Join([]string,string)`：将字符串数组转换为字符转
