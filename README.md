@@ -170,3 +170,21 @@ func (d deck) print(){
 `byte`是每个字符的ASCII码值，旨在方便计算机识别内容
 
 `strings.Join([]string,string)`：将字符串数组转换为字符转
+
+#### 2.8 转换数据类型
+
+在变量之外，输入变量类型，并将需要改变类型的变量作为形式参数放入
+
+例如：`string(bytes)    // bytes 是 []byte`
+
+#### 2.9 随机函数
+
+`Math`包下的`rand`对象的`Intn`方法
+
+使用示例：`rand.Intn(n)`
+
+`n`表示随机整数的可取上限值
+
+#### 2.10 测试
+
+创建一个`xx_test.go`文件，`xx`表示做测试的包名

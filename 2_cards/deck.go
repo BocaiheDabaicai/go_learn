@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -46,5 +47,19 @@ func newDeckFromFile(filename string) deck {
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(1)
+	}
+
+	s := strings.Split(string(bs), ",")
+	return deck(s)
+}
+
+func (d deck) shuffle() {
+	//source := rand.NewSource(time.Now().UnixNano())
+	//r := rand.New(source)
+
+	for index := range d {
+		newPosition := rand.Intn(len(d) - 1)
+
+		d[index], d[newPosition] = d[newPosition], d[index]
 	}
 }
