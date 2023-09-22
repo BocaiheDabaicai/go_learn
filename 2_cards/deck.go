@@ -35,7 +35,7 @@ func deal(d deck, handSize int) (deck, deck) {
 }
 
 func (d deck) toString() string {
-	return strings.Join([]string(d), "")
+	return strings.Join([]string(d), ",")
 }
 
 func (d deck) saveToFile(filename string) error {
@@ -50,6 +50,7 @@ func newDeckFromFile(filename string) deck {
 	}
 
 	s := strings.Split(string(bs), ",")
+
 	return deck(s)
 }
 
