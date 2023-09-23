@@ -195,8 +195,8 @@ func (d deck) print(){
 package main
 
 import (
-	"os"
-	"testing"
+    "os"
+    "testing"
 )
 
 // 测试扑克牌对象
@@ -204,20 +204,21 @@ import (
 // 2. 第一张扑克牌是否为"Ace of Spades"
 // 3. 最后一张扑克牌是否为"Four of Clubs"
 func TestNewDeck(t *testing.T) {
-	d := newDeck()
+    d := newDeck()
 
-	if len(d) != 16 {
-		t.Errorf("Expected deck length of 20,but got %v", len(d))
-	}
+    if len(d) != 16 {
+        t.Errorf("Expected deck length of 20,but got %v", len(d))
+    }
 
-	if d[0] != "Ace of Spades" {
-		t.Errorf("Expected first card of Ace of Spades, but got %v", d[0])
-	}
+    if d[0] != "Ace of Spades" {
+        t.Errorf("Expected first card of Ace of Spades, but got %v", d[0])
+    }
 
-	if d[len(d)-1] != "Four of Clubs" {
-		t.Errorf("Expected last card of Four of Clubs, but got %v", d[len(d)-1])
-	}
+    if d[len(d)-1] != "Four of Clubs" {
+        t.Errorf("Expected last card of Four of Clubs, but got %v", d[len(d)-1])
+    }
 }
+
 
 // 测试读取的文件内容
 // 1. 生成扑克牌对象
@@ -225,22 +226,156 @@ func TestNewDeck(t *testing.T) {
 // 3. 读取内容到 loadedDeck
 // 4. loadedDeck 的长度是否为16
 func TestSaveToDeckAndNewDeckTestFromFile(t *testing.T) {
-	os.Remove("_decktesing")
+    os.Remove("_decktesing")
 
-	deck := newDeck()
-	deck.saveToFile("_decktesing")
+    deck := newDeck()
+    deck.saveToFile("_decktesing")
 
-	loadedDeck := newDeckFromFile("_decktesing")
+    loadedDeck := newDeckFromFile("_decktesing")
 
-	if len(loadedDeck) != 16 {
-		t.Errorf("Expected deck length of 20,but got %v", len(loadedDeck))
-	}
+    if len(loadedDeck) != 16 {
+        t.Errorf("Expected deck length of 20,but got %v", len(loadedDeck))
+    }
 
-	os.Remove("_decktesing")
+    os.Remove("_decktesing")
 }
 
-	}
+    }
 
-	os.Remove("_decktesing")
+    os.Remove("_decktesing")
 }
 ```
+
+---
+
+## 第三章 数据结构
+
+#### 3.1 声明与使用
+
+```go
+package main
+
+import "fmt"
+
+type person struct {
+	firstName string
+	lastName  string
+}
+
+func main() {
+    // 声明方式一，直接声明
+	//Alex := person{"Alex", "Anderson"}
+    // 声明方式二，选择声明
+	//Alex := person{firstName: "Alex", lastName: "Anderson"}
+    // 声明方式三，结构声明
+	var Alex person
+
+	Alex.firstName = "Alex"
+	Alex.lastName = "Anderson"
+
+	fmt.Println(Alex)
+}
+
+
+```
+
+#### 3.2 结构嵌套
+
+```go
+package main
+
+import "fmt"
+
+type contactInfo struct {
+	email   string
+	zipCode int
+}
+
+type person struct {
+	firstName string
+	lastName  string 
+    // 声明自定义类型，方式一，命名声明
+	//contact   contactInfo 
+    // 方式二，类型声明
+	contactInfo
+}
+
+func main() {
+	jim := person{
+		firstName: "Jim",
+		lastName:  "Bruce",
+        // 名称+结构
+		//contact: contactInfo{
+		//	email:   "jim@gmail.com",
+		//	zipCode: 95421,
+		//},
+        // 名称+结构
+		contactInfo: contactInfo{
+			email:   "jim@gmail.com",
+			zipCode: 95421,
+		},
+	}
+
+	//jim.print()
+	jim.updateName("Bob")
+	jim.print()
+}
+
+func (p person) updateName(newFirstName string) {
+	p.firstName = newFirstName
+}
+
+func (p person) print() {
+	fmt.Printf("%+v\n", p)
+}
+
+
+```
+
+#### 3.3 数据结构更新-概念
+
+新生成的数据结构，在使用**外部函数**更新结构内的属性值时，不会使新数据结构内的属性值发生改变，外部函数被引用时，会拷贝一个新的数据结构，并将属性值更新到拷贝数据结构的属性值上。
+
+示例如下：
+
+✨
+
+```go
+// 代码片段
+	jim.updateName("Bob")
+	jim.print()
+}
+
+func (p person) updateName(newFirstName string) {
+	p.firstName = newFirstName    // 赋值发生在拷贝数据结构的属性值上
+}
+
+func (p person) print() {
+	fmt.Printf("%+v\n", p)
+}
+```
+
+正确示例：
+
+```go
+// 代码片段
+	jimPointer := &jim // 赋予地址
+	jimPointer.updateName("Bob")
+	jim.print()
+}
+
+// 声明使用person的指针，并使用指针指向的数据空间进行更新
+func (pointToPerson *person) updateName(newFirstName string) {
+	(*pointToPerson).firstName = newFirstName
+}
+```
+
+
+
+说明
+
+- `&变量名`，表示该变量的地址指向（指针）
+
+- `*数据类型`，表示该数据类型的地址指向
+
+- `*地址指向`，表示该地址指向所指的数据空间
