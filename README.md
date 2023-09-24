@@ -258,25 +258,23 @@ package main
 import "fmt"
 
 type person struct {
-	firstName string
-	lastName  string
+    firstName string
+    lastName  string
 }
 
 func main() {
     // 声明方式一，直接声明
-	//Alex := person{"Alex", "Anderson"}
+    //Alex := person{"Alex", "Anderson"}
     // 声明方式二，选择声明
-	//Alex := person{firstName: "Alex", lastName: "Anderson"}
+    //Alex := person{firstName: "Alex", lastName: "Anderson"}
     // 声明方式三，结构声明
-	var Alex person
+    var Alex person
 
-	Alex.firstName = "Alex"
-	Alex.lastName = "Anderson"
+    Alex.firstName = "Alex"
+    Alex.lastName = "Anderson"
 
-	fmt.Println(Alex)
+    fmt.Println(Alex)
 }
-
-
 ```
 
 #### 3.2 结构嵌套
@@ -287,49 +285,47 @@ package main
 import "fmt"
 
 type contactInfo struct {
-	email   string
-	zipCode int
+    email   string
+    zipCode int
 }
 
 type person struct {
-	firstName string
-	lastName  string 
+    firstName string
+    lastName  string 
     // 声明自定义类型，方式一，命名声明
-	//contact   contactInfo 
+    //contact   contactInfo 
     // 方式二，类型声明
-	contactInfo
+    contactInfo
 }
 
 func main() {
-	jim := person{
-		firstName: "Jim",
-		lastName:  "Bruce",
+    jim := person{
+        firstName: "Jim",
+        lastName:  "Bruce",
         // 名称+结构
-		//contact: contactInfo{
-		//	email:   "jim@gmail.com",
-		//	zipCode: 95421,
-		//},
+        //contact: contactInfo{
+        //    email:   "jim@gmail.com",
+        //    zipCode: 95421,
+        //},
         // 名称+结构
-		contactInfo: contactInfo{
-			email:   "jim@gmail.com",
-			zipCode: 95421,
-		},
-	}
+        contactInfo: contactInfo{
+            email:   "jim@gmail.com",
+            zipCode: 95421,
+        },
+    }
 
-	//jim.print()
-	jim.updateName("Bob")
-	jim.print()
+    //jim.print()
+    jim.updateName("Bob")
+    jim.print()
 }
 
 func (p person) updateName(newFirstName string) {
-	p.firstName = newFirstName
+    p.firstName = newFirstName
 }
 
 func (p person) print() {
-	fmt.Printf("%+v\n", p)
+    fmt.Printf("%+v\n", p)
 }
-
-
 ```
 
 #### 3.3 数据结构更新-概念
@@ -342,16 +338,16 @@ func (p person) print() {
 
 ```go
 // 代码片段
-	jim.updateName("Bob")
-	jim.print()
+    jim.updateName("Bob")
+    jim.print()
 }
 
 func (p person) updateName(newFirstName string) {
-	p.firstName = newFirstName    // 赋值发生在拷贝数据结构的属性值上
+    p.firstName = newFirstName    // 赋值发生在拷贝数据结构的属性值上
 }
 
 func (p person) print() {
-	fmt.Printf("%+v\n", p)
+    fmt.Printf("%+v\n", p)
 }
 ```
 
@@ -359,18 +355,16 @@ func (p person) print() {
 
 ```go
 // 代码片段
-	jimPointer := &jim // 赋予地址
-	jimPointer.updateName("Bob")
-	jim.print()
+    jimPointer := &jim // 赋予地址
+    jimPointer.updateName("Bob")
+    jim.print()
 }
 
 // 声明使用person的指针，并使用指针指向的数据空间进行更新
 func (pointToPerson *person) updateName(newFirstName string) {
-	(*pointToPerson).firstName = newFirstName
+    (*pointToPerson).firstName = newFirstName
 }
 ```
-
-
 
 说明
 
@@ -379,3 +373,33 @@ func (pointToPerson *person) updateName(newFirstName string) {
 - `*数据类型`，表示该数据类型的地址指向
 
 - `*地址指向`，表示该地址指向所指的数据空间
+
+**数据类型**
+
+基本数据类型
+
+- int
+
+- float
+
+- string
+
+- bool
+
+- structs（自定义类型）
+
+引用数据类型
+
+- slice
+
+- map
+
+- channel
+
+- pointer
+
+- function
+
+如果更新数据时，数据的数据类型是引用类型，那么将数组引用复制一份，并进行传输。
+
+基本数据类型在进行传递时，则会将数据复制一份并进行更新
