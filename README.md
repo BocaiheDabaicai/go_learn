@@ -457,3 +457,21 @@ Map集合：
 ---
 
 ## 第五章 Interface(接口)
+
+声明方式：
+
+```go
+type bot interface{
+    getGreeting() string
+}
+```
+
+介绍：
+
+1. 接口不是泛型
+
+2. 接口是隐性的
+
+3. 接口用于管理方法
+
+4. 接口需要细心理解
